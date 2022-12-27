@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        type="text/css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+        crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <title>MCQs_API</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200&display=swap');
+
+        * {
+            font-family: 'Nunito', sans-serif;
+        }
+
+        #div {
+            overflow: auto;
+            resize: both;
+        }
+
+        .btn {
+            font-size: 1.2em;
+            width: 7em;
+            height: 2.8em;
+        }
+    </style>
+</head>
+
+<body class="bg-dark">
+    <script>
+        //MCQs
+        function loadMcqs() {
+            fetch('https://opentdb.com/api.php?amount=10&category=18&difficulty=easy&type=multiple')
+                .then(data => data.json())
+                .then(questions => {
+                    console.log(questions);
+                    let html=`<table class="table table-dark text-light">`
+                        html+=`<thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Correct_answer</th>
+                                <th>Difficulty</th>
+                                <th>Incorrect_answers</th>
+                                <th>Question</th>
+                                <th>Type</th>
+                            </tr>
+                        </thead>`
+                        questions.forEach(question => {
+                            html+=`<tbody>
+                                <tr>
+                                    <td>${question.category}</td>
+                                    <td>${question.correct_answer}</td>
+                                    <td>${question.difficulty}</td>
+                                    <td>${question.incorrect_answers}</td>
+                                    <td>${question.question}</td>
+                                    <td>${question.json}</td>
+                                </tr>
+                            </tbody>`
+                        })
+                        html+=`</table>`
+                        document
+                        .getElementById("Questtions")
+                        .innerHTML = html
+                })
+        }
+
+    </script>
+
+    <div id="div" class="border rounded-3 border-light p-3 mt-3 mx-3 me-3">
+        <div class="d-flex justify-content-center">
+            <button onclick="loadMcqs()" id="btn" class="btn btn-outline-light rounded-3 fw-bold p-2">Load
+                MCQs</button>
+        </div>
+        <hr class="text-light rounded ms-1 me-1 pt-1">
+        <div id="Questions" class="p-2"></div>
+    </div>
+
+</body>
+
+</html>
